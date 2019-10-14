@@ -1,0 +1,46 @@
+<div>
+  <% if @task.id.nil? %>
+  <h1>Add Task</h1>
+  <% end %>
+</div>
+<%= form_with(model: @task, local: true) do |form| %>
+  <% if @task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@task.errors.count, "error") %> prohibited this @task from being saved:</h2>
+
+      <ul>
+      <% @task.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.text_field :name, class: 'form-control', placeholder: 'Task Name'%>
+  </div>
+
+  <div class="field">
+    <%= form.text_area :description, class: 'form-control', placeholder: 'Desciprtion' %>
+  </div>
+
+  <div class="field">
+    <%= select_tag :status, options_for_select(Task.statuses) %>
+  </div>
+
+  <div class="field">
+    <input type="date" name="task[due_date]" placeholder="Due Date" class="form-control">
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+
+<script>
+    $( function() {
+    $( ".datepicker" ).datepicker();
+  } );
+  
+</script>

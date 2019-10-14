@@ -1,0 +1,39 @@
+<div class="container pb-5">
+	<div class="row">
+		<div class="col-5 py-5">
+			<%= render partial: 'tasks/form' %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="clearfix"></div>
+		<div class="col-5">
+			<h3>Pending Tasks</h3>
+			<ul id="pending" class="list-group ">
+				<% @pending_tasks.each do |x| %>
+					<li class="list-group-item" data-id="<%= x.id %>" data-sort-id="<%= x.row_order_rank %>"><p><%= x.name %> <span class="float-right text-danger status" data-id="<%= x.id %>">Completed?</span> <span class="<%= x.due_date < Date.today ? "text-danger" : "text-info" %> float-right"><%= x.due_date  %>&nbsp;&nbsp;</span> </p>
+						<p class="font-10"><%= x.description %> <span class="float-right"><a href="/tasks/<%= x.id %>/edit">Edit</a>/<%= link_to 'Destroy', x, method: :delete, data: { confirm: 'Are you sure?' } %></span></p></li>
+				<% end %>
+			</ul>
+		</div>
+		<div class="col-5 offset-md-1">
+			<h3> Completed Tasks</h3>
+			<ul id="completed" class="list-group">
+			<% @completed_tasks.each do |x| %>
+				<li class="list-group-item" data-id="<%= x.id %>" data-sort-id="<%= x.row_order_rank %>"><p><%= x.name %> <span class="float-right text-success status" data-id="<%= x.id %>">pending?</span></p>
+				<p class="font-10"><%= x.description %> <span class="float-right"><a href="/tasks/<%= x.id %>/edit">Edit</a>/<%= link_to 'Destroy', x, method: :delete, data: { confirm: 'Are you sure?' } %></span></p></li>
+			<% end %>
+		</ul>
+		</div>
+
+
+
+	</div>
+</div>
+
+<script>
+	$(document).ready(function(){
+		TodoSort.initSort('#pending')
+		TodoSort.initSort('#completed')
+		TodoSort.init()
+	})
+</script>
